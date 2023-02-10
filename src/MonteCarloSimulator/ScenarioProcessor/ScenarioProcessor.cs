@@ -38,6 +38,17 @@ public class ScenarioProcessor : IScenarioProcessor
 
     private void ProcessSimulation(SimulationObject simulationObject)
     {
+        var price = simulationObject.InitialPrice;
+        for (var timestep = 0; timestep < simulationObject.TimeSteps; timestep++)
+        {
+            var normalDistribution = new Normal(simulationObject.Mean, simulationObject.StandardDeviation);
+            var randomNumber = normalDistribution.Sample();
+            var exp = Math.Exp(randomNumber);
 
+            price *= exp;
+        }
+
+        var simulationReturn = price / simulationObject.InitialPrice - 1;
+        AssetsScenarioReturns.Add(simulationReturn);
     }
 }
