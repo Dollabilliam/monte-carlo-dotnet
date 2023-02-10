@@ -1,6 +1,8 @@
 using MonteCarloSimulator;
 using MonteCarloSimulator.Queues;
 using MonteCarloSimulator.Queues.Messages;
+using MonteCarloSimulator.Result;
+using MonteCarloSimulator.Status;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IEnqueueQueue<QueueMessage>, QueueQueue>();
+
+builder.Services.AddSingleton<IGetStatusRepository, StatusRepository>();
+
+builder.Services.AddSingleton<IGetResultRepository, ResultRepository>();
 
 
 builder.Services.AddHostedService<QueueWorker>();
