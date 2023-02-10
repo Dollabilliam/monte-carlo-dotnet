@@ -3,7 +3,7 @@ using MonteCarloSimulator.Queues.Messages;
 
 namespace MonteCarloSimulator.Queues;
 
-public class QueueQueue : IEnqueueQueue<QueueMessage>, IDequeueQueue<QueueMessage>
+public class RequestQueue : IEnqueueQueue<QueueMessage>, IDequeueQueue<QueueMessage>
 {
     private static readonly ConcurrentQueue<QueueMessage> Messages = new();
 

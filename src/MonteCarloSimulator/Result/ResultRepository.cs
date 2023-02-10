@@ -4,9 +4,15 @@ using MonteCarloSimulator.Controllers.Dtos.Responses;
 
 namespace MonteCarloSimulator.Result;
 
-public class ResultRepository : IGetResultRepository
+public class ResultRepository : IGetResultRepository, ISetResultRepository
 {
     private static ConcurrentDictionary<string, Quantiles> ResultDictionary = new();
+
+    public Task SetResult(string simulationId, Quantiles quantiles)
+    {
+        ResultDictionary[simulationId] = quantiles;
+        return Task.CompletedTask;
+    }
 
     public Task<List<GetResultResponseDto>> GetResults(IEnumerable<string> simulationIds)
     {

@@ -24,6 +24,14 @@ public class QueueWorker : BackgroundService
             await Task.Delay(10000, cancellationToken);
 
             var message = await queue.Dequeue();
+            if (message != null)
+            {
+                logger.LogInformation("Message {messageName} will be processed", message.SimulationObject.SimulationId);
+
+                // await processor.ProcessScenarios(message, cancellationToken);
+
+                logger.LogInformation("Message {messageName} has been processed", message.SimulationObject.SimulationId);
+            }
 
             logger.LogInformation("No message in queue");
         }
