@@ -19,10 +19,11 @@ public class SimulationController : ControllerBase
     private readonly IGetResultRepository resultRepository;
 
 
-    public SimulationController(IEnqueueRequest<QueueMessage> requestQueue, IGetStatusRepository statusRepository)
+    public SimulationController(IEnqueueRequest<QueueMessage> requestQueue, IGetStatusRepository statusRepository, IGetResultRepository resultRepository)
     {
         this.requestQueue = requestQueue;
         this.statusRepository = statusRepository;
+        this.resultRepository = resultRepository;
     }
 
     [HttpPost("start-simulation")]
