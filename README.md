@@ -6,7 +6,7 @@
 ## How To Run
 Clone this repo, open it in your IDE of choice, and then click "Run". 
 
-A Swagger page should then open in your browser running on the port defined in` launchSettings.json` and allow you to interact with these endpoints:
+A Swagger page should then open in your browser running on the port defined in `launchSettings.json` and allow you to interact with these endpoints:
 * `POST`: `/simulation/start-simulation`
   * Request
   ```json
