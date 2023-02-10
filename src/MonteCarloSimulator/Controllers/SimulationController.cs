@@ -4,6 +4,7 @@ using MonteCarloSimulator.Controllers.Dtos.Requests;
 using MonteCarloSimulator.Controllers.Dtos.Responses;
 using MonteCarloSimulator.Queues;
 using MonteCarloSimulator.Queues.Messages;
+using MonteCarloSimulator.Result;
 using MonteCarloSimulator.ScenarioProcessor;
 using MonteCarloSimulator.Status;
 
@@ -15,6 +16,7 @@ public class SimulationController : ControllerBase
 {
     private readonly IEnqueueRequest<QueueMessage> requestQueue;
     private readonly IGetStatusRepository statusRepository;
+    private readonly IGetResultRepository resultRepository;
 
 
     public SimulationController(IEnqueueRequest<QueueMessage> requestQueue, IGetStatusRepository statusRepository)
@@ -55,6 +57,14 @@ public class SimulationController : ControllerBase
     public async Task<IEnumerable<GetStatusResponseDto>> GetStatuses([FromQuery] GetStatusRequestDto request)
     {
         return await statusRepository.GetStatus(request.SimulationIds);
+    }
+
+
+    [HttpGet("get-results")]
+    [ProducesResponseType(typeof(GetResultResponseDto), StatusCodes.Status200OK)]
+    public async Task<IEnumerable<GetResultResponseDto>> GetResults([FromQuery] GetResultRequestDto request)
+    {
+        return await resultRepository.GetResults(request.SimulationIds);
     }
 
     private QueueMessage CreateMessage(string simulationId, int scenarios, int timeSteps, Asset asset)
