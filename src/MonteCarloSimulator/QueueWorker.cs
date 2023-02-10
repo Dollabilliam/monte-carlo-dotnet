@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Options;
+using MonteCarloSimulator.Options;
 using MonteCarloSimulator.Queues;
 using MonteCarloSimulator.Queues.Messages;
 using MonteCarloSimulator.ScenarioProcessor;
@@ -10,12 +12,18 @@ public class QueueWorker : BackgroundService
     private readonly ILogger<QueueWorker> logger;
     private readonly IDequeueQueue<QueueMessage> queue;
     private readonly IScenarioProcessor processor;
+    private readonly IOptions<QueueWorkerOptions> options;
 
-    public QueueWorker(ILogger<QueueWorker> logger, IDequeueQueue<QueueMessage> queue, IScenarioProcessor processor)
+    public QueueWorker(
+        ILogger<QueueWorker> logger,
+        IDequeueQueue<QueueMessage> queue,
+        IScenarioProcessor processor,
+        IOptions<QueueWorkerOptions> options)
     {
         this.logger = logger;
         this.queue = queue;
         this.processor = processor;
+        this.options = options;
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -24,7 +32,7 @@ public class QueueWorker : BackgroundService
         {
             logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-            await Task.Delay(10000, cancellationToken);
+            await Task.Delay(options.Value.WorkerDelay ?? 10000, cancellationToken);
 
             var message = await queue.Dequeue();
             if (message != null)

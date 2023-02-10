@@ -18,8 +18,10 @@ public class SimulationController : ControllerBase
     private readonly IGetStatusRepository statusRepository;
     private readonly IGetResultRepository resultRepository;
 
-
-    public SimulationController(IEnqueueQueue<QueueMessage> queueQueue, IGetStatusRepository statusRepository, IGetResultRepository resultRepository)
+    public SimulationController(
+        IEnqueueQueue<QueueMessage> queueQueue,
+        IGetStatusRepository statusRepository,
+        IGetResultRepository resultRepository)
     {
         this.queueQueue = queueQueue;
         this.statusRepository = statusRepository;

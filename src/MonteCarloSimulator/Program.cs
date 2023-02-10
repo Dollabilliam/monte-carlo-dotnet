@@ -1,4 +1,5 @@
 using MonteCarloSimulator;
+using MonteCarloSimulator.Options;
 using MonteCarloSimulator.Queues;
 using MonteCarloSimulator.Queues.Messages;
 using MonteCarloSimulator.Result;
@@ -22,6 +23,7 @@ builder.Services.AddSingleton<ISetResultRepository, ResultRepository>();
 
 builder.Services.AddTransient<IScenarioProcessor, ScenarioProcessor>();
 
+builder.Services.Configure<QueueWorkerOptions>(builder.Configuration.GetSection("QueueWorker"));
 builder.Services.AddHostedService<QueueWorker>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
