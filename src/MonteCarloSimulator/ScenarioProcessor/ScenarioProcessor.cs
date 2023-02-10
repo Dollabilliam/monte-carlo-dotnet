@@ -1,6 +1,9 @@
 using System.Threading.Tasks.Dataflow;
 using MathNet.Numerics.Distributions;
+using MonteCarloSimulator.Controllers.Dtos;
 using MonteCarloSimulator.Queues.Messages;
+using MonteCarloSimulator.Result;
+using MonteCarloSimulator.Status;
 
 namespace MonteCarloSimulator.ScenarioProcessor;
 
@@ -10,10 +13,14 @@ public class ScenarioProcessor : IScenarioProcessor
     private List<double> AssetsScenarioReturns = new();
 
     private readonly ILogger<ScenarioProcessor> logger;
+    private readonly ISetStatusRepository statusRepository;
+    private readonly ISetResultRepository resultRepository;
 
-    public ScenarioProcessor(ILogger<ScenarioProcessor> logger)
+    public ScenarioProcessor(ILogger<ScenarioProcessor> logger, ISetStatusRepository statusRepository, ISetResultRepository resultRepository)
     {
         this.logger = logger;
+        this.statusRepository = statusRepository;
+        this.resultRepository = resultRepository;
     }
 
     public async Task ProcessScenarios(QueueMessage message, CancellationToken cancellationToken)
@@ -30,10 +37,16 @@ public class ScenarioProcessor : IScenarioProcessor
 
         for (var scenario = 0; scenario < message.SimulationObject.Scenarios; scenario++)
         {
+            await statusRepository.SetStatus(message.SimulationObject.SimulationId, scenario);
+
             actions.Post(message.SimulationObject);
         }
+
         actions.Complete();
         await actions.Completion;
+
+        var quantiles = CalculateQuantiles(AssetsScenarioReturns);
+        await resultRepository.SetResult(message.SimulationObject.SimulationId, quantiles);
     }
 
     private void ProcessSimulation(SimulationObject simulationObject)
@@ -50,5 +63,14 @@ public class ScenarioProcessor : IScenarioProcessor
 
         var simulationReturn = price / simulationObject.InitialPrice - 1;
         AssetsScenarioReturns.Add(simulationReturn);
+    }
+
+    private Quantiles CalculateQuantiles(List<double> scenarioReturns)
+    {
+        return new Quantiles
+        {
+            FirstQuantileReturn = 1,
+            FifthQuantileReturn = 2
+        };
     }
 }
