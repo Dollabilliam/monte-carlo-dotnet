@@ -39,11 +39,18 @@ public class ScenarioProcessor : IScenarioProcessor
         {
             await statusRepository.SetStatus(message.SimulationObject.SimulationId, scenario);
 
+            logger.LogInformation(
+                "Beginning scenario {Scenario} for asset {AssetSimId}",
+                message.SimulationObject.SimulationId,
+                scenario);
+
             actions.Post(message.SimulationObject);
         }
 
         actions.Complete();
         await actions.Completion;
+
+        logger.LogInformation("Setting scenario result for asset {AssetSimId}", message.SimulationObject.SimulationId);
 
         var quantiles = CalculateQuantiles(AssetsScenarioReturns);
         await resultRepository.SetResult(message.SimulationObject.SimulationId, quantiles);
@@ -67,10 +74,17 @@ public class ScenarioProcessor : IScenarioProcessor
 
     private Quantiles CalculateQuantiles(List<double> scenarioReturns)
     {
+        scenarioReturns.Sort();
+
+        var quantileSize = scenarioReturns.Count / 5;
+
+        var firstQuantile = scenarioReturns[quantileSize - 1];
+        var fifthQuantile = scenarioReturns[4 * quantileSize - 1];
+
         return new Quantiles
         {
-            FirstQuantileReturn = 1,
-            FifthQuantileReturn = 2
+            FirstQuantileReturn = firstQuantile,
+            FifthQuantileReturn = fifthQuantile
         };
     }
 }
