@@ -1,5 +1,6 @@
 using MonteCarloSimulator.Queues;
 using MonteCarloSimulator.Queues.Messages;
+using MonteCarloSimulator.ScenarioProcessor;
 
 namespace MonteCarloSimulator;
 
@@ -8,11 +9,13 @@ public class QueueWorker : BackgroundService
 
     private readonly ILogger<QueueWorker> logger;
     private readonly IDequeueQueue<QueueMessage> queue;
+    private readonly IScenarioProcessor processor;
 
-    public QueueWorker(ILogger<QueueWorker> logger, IDequeueQueue<QueueMessage> queue)
+    public QueueWorker(ILogger<QueueWorker> logger, IDequeueQueue<QueueMessage> queue, IScenarioProcessor processor)
     {
         this.logger = logger;
         this.queue = queue;
+        this.processor = processor;
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -28,7 +31,7 @@ public class QueueWorker : BackgroundService
             {
                 logger.LogInformation("Message {messageName} will be processed", message.SimulationObject.SimulationId);
 
-                // await processor.ProcessScenarios(message, cancellationToken);
+                await processor.ProcessScenarios(message, cancellationToken);
 
                 logger.LogInformation("Message {messageName} has been processed", message.SimulationObject.SimulationId);
             }
