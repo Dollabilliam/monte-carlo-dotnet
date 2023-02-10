@@ -2,7 +2,7 @@ namespace MonteCarloSimulator.Controllers.Dtos;
 
 public record Quantiles
 {
-    public double FirstQuantileReturn { get; init; }
+    public double FirstQuantileReturnAsPercentage { get; init; }
 
-    public double FifthQuantileReturn { get; init; }
+    public double FifthQuantileReturnAsPercentage { get; init; }
 }

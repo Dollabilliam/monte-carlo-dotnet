@@ -1,4 +1,4 @@
-# welcome to monte-carlo-dotnet! 
+# Welcome to monte-carlo-dotnet! 
 
 ## Requirements
 .NET 6 and C# 10
@@ -36,6 +36,7 @@ A Swagger page should then open in your browser running on the port defined in` 
   }
   ```
   * Response
+    * this contains unique IDs for the Assets simulation runs which can be used in subsequent requests
   ```json
   {
     "simulationIds": [
@@ -49,6 +50,7 @@ A Swagger page should then open in your browser running on the port defined in` 
   * Request
   `'https://localhost:7289/simulation/get-statuses?SimulationIds=3b1c1277-e9e1-4d3b-8339-a9ca1d4af319_Asset%201'`
   * Response
+    * `scenarioCount` counts upward, so 999 means that it's finished
   ```json
   [
     {
@@ -61,13 +63,14 @@ A Swagger page should then open in your browser running on the port defined in` 
   * Request
     `'https://localhost:7289/simulation/get-results?SimulationIds=3b1c1277-e9e1-4d3b-8339-a9ca1d4af319_Asset%201'`
   * Response
+    * As the names suggest, `quantiles` are returned in percentage but as type `double` for the simplicity those consuming this service 
   ```json
   [
     {
       "simulationId": "3b1c1277-e9e1-4d3b-8339-a9ca1d4af319_Asset 1",
       "quantiles": {
-          "firstQuantileReturn": 17.390310895879136,
-          "fifthQuantileReturn": 21.148225095560502
+          "firstQuantileReturnAsPercentage": 17.390310895879136,
+          "fifthQuantileReturnAsPercentage": 21.148225095560502
       }
     }
   ]
@@ -80,17 +83,23 @@ This is a "happy path" service, so please play don't try any edge cases as those
 
 You're able to configure how faster the QueueWorker runs by configuring its delay `WorkerDelay` in `appsettings.json`. If nothing is provided, the worker will run every 10000 ms.
 
-## Author's Note
-The `QueueWorker`
+## Design Note
+The `QueueWorker` deliberately handles one message at a time for simplicity and scaling. In the future, you could use n-workers and spawn them as needed to handle faster a throughput.
+
+Also, the interfaces were created to allow for swapping out new components in the future that can take this service to the next level (e.g. the AWS components noted below in the Excalidraw diagram)
 
 
 ## Further Improvements
 * Introduce...
   * FluentValidation for validating requests sent to endpoints
   * NUnit for testing components
+  * StyleCop because why not
 * Add some more logging perhaps
 * Document interfaces, methods, etc
 * Migrate toward scalable architecture as defined in diagram below
   * The REST service already communicates in this manner; this diagram is more about showing which components should be introduced to make it faster and scalable
 
 ![pefect-world-diagram](system-design.png "pefect-world-diagram")
+
+
+# Happy Monte-Carlo-ing!

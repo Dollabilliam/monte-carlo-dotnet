@@ -83,8 +83,8 @@ public class ScenarioProcessor : IScenarioProcessor
 
         return new Quantiles
         {
-            FirstQuantileReturn = firstQuantile,
-            FifthQuantileReturn = fifthQuantile
+            FirstQuantileReturnAsPercentage = firstQuantile,
+            FifthQuantileReturnAsPercentage = fifthQuantile
         };
     }
 }
