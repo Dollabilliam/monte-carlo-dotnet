@@ -1,6 +1,6 @@
 namespace MonteCarloSimulator.Queues;
 
-public interface IEnqueueRequest<T>
+public interface IEnqueueQueue<T>
 {
     Task Enqueue(T message);
 }

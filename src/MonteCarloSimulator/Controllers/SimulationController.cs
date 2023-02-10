@@ -14,14 +14,14 @@ namespace MonteCarloSimulator.Controllers;
 [Route("simulation")]
 public class SimulationController : ControllerBase
 {
-    private readonly IEnqueueRequest<QueueMessage> requestQueue;
+    private readonly IEnqueueQueue<QueueMessage> queueQueue;
     private readonly IGetStatusRepository statusRepository;
     private readonly IGetResultRepository resultRepository;
 
 
-    public SimulationController(IEnqueueRequest<QueueMessage> requestQueue, IGetStatusRepository statusRepository, IGetResultRepository resultRepository)
+    public SimulationController(IEnqueueQueue<QueueMessage> queueQueue, IGetStatusRepository statusRepository, IGetResultRepository resultRepository)
     {
-        this.requestQueue = requestQueue;
+        this.queueQueue = queueQueue;
         this.statusRepository = statusRepository;
         this.resultRepository = resultRepository;
     }
@@ -40,7 +40,7 @@ public class SimulationController : ControllerBase
 
                 var message = CreateMessage(simulationId, request.Scenarios, request.TimeSteps, asset);
 
-                await requestQueue.Enqueue(message);
+                await queueQueue.Enqueue(message);
 
                 simulationIds.Add(simulationId);
             }

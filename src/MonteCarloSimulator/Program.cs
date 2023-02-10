@@ -1,3 +1,4 @@
+using MonteCarloSimulator;
 using MonteCarloSimulator.Queues;
 using MonteCarloSimulator.Queues.Messages;
 
@@ -7,8 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton<IEnqueueRequest<QueueMessage>, RequestQueue>();
+builder.Services.AddSingleton<IEnqueueQueue<QueueMessage>, QueueQueue>();
 
+
+builder.Services.AddHostedService<QueueWorker>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

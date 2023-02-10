@@ -1,6 +1,6 @@
 namespace MonteCarloSimulator.Queues;
 
-public interface IDequeueRequest<T>
+public interface IDequeueQueue<T>
 {
     Task<T> Dequeue();
 }
