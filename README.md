@@ -86,7 +86,7 @@ You're able to configure how faster the QueueWorker runs by configuring its dela
 ## Design Note
 The `QueueWorker` deliberately handles one message at a time for simplicity and scaling. In the future, you could use n-workers and spawn them as needed to handle faster a throughput.
 
-Also, the interfaces were created to allow for swapping out new components in the future that can take this service to the next level (e.g. the AWS components noted below in the Excalidraw diagram)
+Also, the interfaces were created to allow for swapping out new components in the future that can take this service to the next level (e.g. the AWS components noted below in the diagram)
 
 
 ## Further Improvements
