@@ -81,7 +81,7 @@ The `launchSettings.json` file may be configured to your liking if you'd like to
 
 This is a "happy path" service, so please play don't try any edge cases as those most likely aren't handled.
 
-You're able to configure how faster the QueueWorker runs by configuring its delay `WorkerDelay` in `appsettings.json`. If nothing is provided, the worker will run every 10000 ms.
+You're able to configure how faster the `QueueWorker` runs by configuring its delay `WorkerDelay` in `appsettings.json`. If nothing is provided, the worker will run every `10000 ms`.
 
 ## Design Remarks
 The `QueueWorker` deliberately handles one message at a time for simplicity and scaling. In the future, you could use n-workers and spawn them as needed to handle faster a throughput.
