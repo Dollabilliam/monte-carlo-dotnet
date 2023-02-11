@@ -4,7 +4,7 @@
 .NET 6 and C# 10
 
 ## How To Run
-Clone this repo, open it in your IDE of choice, and then click "Run". 
+Clone this repo, open it in your IDE of choice, and then click "Run" 
 
 A Swagger page should then open in your browser running on the port defined in `launchSettings.json` and allow you to interact with these endpoints:
 * `POST` `/simulation/start-simulation`
@@ -77,16 +77,16 @@ A Swagger page should then open in your browser running on the port defined in `
   ```
 The `launchSettings.json` file may be configured to your liking if you'd like to change aspects of how the program runs.
 
-### Note
+### Note(s)
 
-This is a "happy path" service, so please play don't try any edge cases as those most likely aren't handled
+This is a "happy path" service, so please play don't try any edge cases as those most likely aren't handled.
 
 You're able to configure how faster the QueueWorker runs by configuring its delay `WorkerDelay` in `appsettings.json`. If nothing is provided, the worker will run every 10000 ms.
 
-## Design Note
+## Design Remarks
 The `QueueWorker` deliberately handles one message at a time for simplicity and scaling. In the future, you could use n-workers and spawn them as needed to handle faster a throughput.
 
-Also, the interfaces were created to allow for swapping out new components in the future that can take this service to the next level (e.g. the AWS components noted below in the diagram)
+Also, the interfaces were created to allow for swapping out new components in the future that can take this service to the next level (e.g. the AWS components noted below in the diagram) and for testing of course.
 
 
 ## Further Improvements
