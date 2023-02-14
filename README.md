@@ -84,7 +84,7 @@ This is a "happy path" service, so please play don't try any edge cases as those
 You're able to configure how faster the `QueueWorker` runs by configuring its delay `WorkerDelay` in `appsettings.json`. If nothing is provided, the worker will run every `10000 ms`.
 
 ## Design Remarks
-The `QueueWorker` deliberately handles one message at a time for simplicity and scaling. In the future, you could use n-workers and spawn them as needed to handle faster a throughput.
+The `QueueWorker` deliberately handles one message at a time for simplicity and scaling. In the future, you could use n-workers and spawn them as needed to handle a faster throughput.
 
 Also, the interfaces were created to allow for swapping out new components in the future that can take this service to the next level (e.g. the AWS components noted below in the diagram) and for testing of course.
 
