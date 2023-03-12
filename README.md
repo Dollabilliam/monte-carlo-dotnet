@@ -63,7 +63,7 @@ A Swagger page should then open in your browser running on the port defined in `
   * Request
     `'https://localhost:7289/simulation/get-results?SimulationIds=3b1c1277-e9e1-4d3b-8339-a9ca1d4af319_Asset%201'`
   * Response
-    * As the names suggest, `quantiles` are returned in percentage but as type `double` for the simplicity those consuming this service 
+    * As the names suggest, `quantiles` are returned in percentage but as type `double` for the simplicity of those consuming this service 
   ```json
   [
     {
