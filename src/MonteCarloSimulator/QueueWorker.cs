@@ -32,7 +32,7 @@ public class QueueWorker : BackgroundService
         {
             logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-            await Task.Delay(options.Value.WorkerDelay ?? 10000, cancellationToken);
+            await Task.Delay(options.Value.WorkerDelayInMs ?? 10000, cancellationToken);
 
             var message = await queue.Dequeue();
             if (message != null)

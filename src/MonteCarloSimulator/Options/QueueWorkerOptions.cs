@@ -2,5 +2,5 @@ namespace MonteCarloSimulator.Options;
 
 public record QueueWorkerOptions
 {
-    public int? WorkerDelay { get; init; }
+    public int? WorkerDelayInMs { get; init; }
 }
