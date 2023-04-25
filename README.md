@@ -9,6 +9,11 @@ Clone this repo, open it in your IDE of choice, and then click "Run"
 A Swagger page should then open in your browser running on the port defined in `launchSettings.json` and allow you to interact with these endpoints:
 * `POST` `/simulation/start-simulation`
   * Request
+    * T --> timesteps
+    * S --> scenarios
+    * p0 --> price at timestep 0
+    * m --> mean
+    * s --> standard deviation
   ```json
   {
     "T": 120,
