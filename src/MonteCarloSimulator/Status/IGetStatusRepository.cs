@@ -4,5 +4,5 @@ namespace MonteCarloSimulator.Status;
 
 public interface IGetStatusRepository
 {
-    Task<List<GetStatusResponseDto>> GetStatus(IEnumerable<string> simulationIds);
+    IEnumerable<GetStatusResponseDto> GetStatus(IEnumerable<string> simulationIds);
 }

@@ -14,7 +14,7 @@ public class ResultRepository : IGetResultRepository, ISetResultRepository
         return Task.CompletedTask;
     }
 
-    public Task<List<GetResultResponseDto>> GetResults(IEnumerable<string> simulationIds)
+    public IEnumerable<GetResultResponseDto> GetResults(IEnumerable<string> simulationIds)
     {
         var getResultResponseDtos = new List<GetResultResponseDto>();
         foreach (var simulationId in simulationIds)
@@ -29,6 +29,6 @@ public class ResultRepository : IGetResultRepository, ISetResultRepository
             }
         }
 
-        return Task.FromResult(getResultResponseDtos);
+        return getResultResponseDtos;
     }
 }

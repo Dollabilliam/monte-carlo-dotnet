@@ -37,7 +37,7 @@ public class ScenarioProcessor : IScenarioProcessor
 
         for (var scenario = 0; scenario < message.SimulationObject.Scenarios; scenario++)
         {
-            await statusRepository.SetStatus(message.SimulationObject.SimulationId, scenario);
+            statusRepository.SetStatus(message.SimulationObject.SimulationId, scenario);
 
             logger.LogInformation(
                 "Beginning scenario {Scenario} for asset {AssetSimId}",

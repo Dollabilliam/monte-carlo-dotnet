@@ -8,7 +8,6 @@ namespace MonteCarloSimulator;
 
 public class QueueWorker : BackgroundService
 {
-
     private readonly ILogger<QueueWorker> logger;
     private readonly IDequeueQueue<QueueMessage> queue;
     private readonly IScenarioProcessor processor;
@@ -34,7 +33,7 @@ public class QueueWorker : BackgroundService
 
             await Task.Delay(options.Value.WorkerDelayInMs ?? 10000, cancellationToken);
 
-            var message = await queue.Dequeue();
+            var message = queue.Dequeue();
             if (message != null)
             {
                 logger.LogInformation("Message {messageName} will be processed", message.SimulationObject.SimulationId);

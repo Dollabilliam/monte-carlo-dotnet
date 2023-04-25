@@ -4,5 +4,5 @@ namespace MonteCarloSimulator.Result;
 
 public interface IGetResultRepository
 {
-    public Task<List<GetResultResponseDto>> GetResults(IEnumerable<string> simulationIds);
+    public IEnumerable<GetResultResponseDto> GetResults(IEnumerable<string> simulationIds);
 }

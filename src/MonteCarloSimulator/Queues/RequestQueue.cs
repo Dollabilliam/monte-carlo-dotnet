@@ -7,18 +7,17 @@ public class RequestQueue : IEnqueueQueue<QueueMessage>, IDequeueQueue<QueueMess
 {
     private static readonly ConcurrentQueue<QueueMessage> Messages = new();
 
-    public Task Enqueue(QueueMessage message)
+    public void Enqueue(QueueMessage message)
     {
         if (message == null) throw new ArgumentNullException(nameof(message));
 
         Messages.Enqueue(message);
-        return Task.CompletedTask;
     }
 
-    public Task<QueueMessage?> Dequeue()
+    public QueueMessage Dequeue()
     {
         var success = Messages.TryDequeue(out var message);
 
-        return Task.FromResult(success ? message : null);
+        return success ? message : null;
     }
 }
