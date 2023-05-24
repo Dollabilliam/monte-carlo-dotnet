@@ -4,7 +4,7 @@
 .NET 6 and C# 10
 
 ## How To Run
-Clone this repo, open it in your IDE of choice, and then click "Run" 
+Clone this repo, open it in your IDE of choice, and then click "Run" (or do the whole `dotnet run` thing)
 
 A Swagger page should then open in your browser running on the port defined in `launchSettings.json` and allow you to interact with these endpoints:
 * `POST` `/simulation/start-simulation`
