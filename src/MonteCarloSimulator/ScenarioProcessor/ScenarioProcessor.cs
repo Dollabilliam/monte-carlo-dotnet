@@ -72,6 +72,8 @@ public class ScenarioProcessor : IScenarioProcessor
         AssetsScenarioReturns.Add(simulationReturn);
     }
 
+    // ToDo: return formatted bell curve or boxplot of scenario results too -- would be way cooler!
+
     private Quantiles CalculateQuantiles(List<double> scenarioReturns)
     {
         scenarioReturns.Sort();
