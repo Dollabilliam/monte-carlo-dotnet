@@ -1,12 +1,9 @@
 # Welcome to monte-carlo-dotnet! 
 
-## Requirements
-.NET 6 and C# 10
-
 ## How To Run
-Clone this repo, open it in your IDE of choice, and then click "Run" (or do the whole `dotnet run` thing)
+Clone this repo and start the application with `dotnet run` or open it in your IDE of choice and click 'run'
 
-A Swagger page should then open in your browser running on the port defined in `launchSettings.json` and allow you to interact with these endpoints:
+A Swagger page  should then open in your browser running on the port defined in `launchSettings.json` and allow you to interact with these endpoints (e.g. http://localhost:5000/swagger/index.html):
 * `POST` `/simulation/start-simulation`
   * Request
     * T --> timesteps

@@ -8,8 +8,6 @@ using MonteCarloSimulator.Status;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IEnqueueQueue<QueueMessage>, RequestQueue>();
@@ -25,13 +23,11 @@ builder.Services.AddTransient<IScenarioProcessor, ScenarioProcessor>();
 
 builder.Services.Configure<QueueWorkerOptions>(builder.Configuration.GetSection("QueueWorker"));
 builder.Services.AddHostedService<QueueWorker>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

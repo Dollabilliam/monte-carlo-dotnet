@@ -28,7 +28,11 @@ public class ScenarioProcessor : IScenarioProcessor
         logger.LogInformation("Beginning processing scenarios for asset {AssetSimId}", message.SimulationObject.SimulationId);
 
         var actions = new ActionBlock<SimulationObject>(
-            _ => ProcessSimulation(message.SimulationObject),
+            _ => ProcessSimulation(
+                message.SimulationObject.InitialPrice, 
+                message.SimulationObject.TimeSteps,
+                message.SimulationObject.Mean,
+                message.SimulationObject.StandardDeviation),
             new ExecutionDataflowBlockOptions
             {
                 MaxDegreeOfParallelism = 10,
@@ -56,19 +60,18 @@ public class ScenarioProcessor : IScenarioProcessor
         await resultRepository.SetResult(message.SimulationObject.SimulationId, quantiles);
     }
 
-    private void ProcessSimulation(SimulationObject simulationObject)
+    private void ProcessSimulation(double initialPrice, int timeSteps, double mean, double standardDeviation)
     {
-        var price = simulationObject.InitialPrice;
-        for (var timestep = 0; timestep < simulationObject.TimeSteps; timestep++)
+        for (var timeStep = 0; timeStep < timeSteps; timeStep++)
         {
-            var normalDistribution = new Normal(simulationObject.Mean, simulationObject.StandardDeviation);
+            var normalDistribution = new Normal(mean, standardDeviation);
             var randomNumber = normalDistribution.Sample();
             var exp = Math.Exp(randomNumber);
 
-            price *= exp;
+            initialPrice *= exp;
         }
 
-        var simulationReturn = price / simulationObject.InitialPrice - 1;
+        var simulationReturn = initialPrice / initialPrice - 1;
         AssetsScenarioReturns.Add(simulationReturn);
     }
 
