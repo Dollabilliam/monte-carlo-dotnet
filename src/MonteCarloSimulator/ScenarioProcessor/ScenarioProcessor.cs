@@ -29,7 +29,7 @@ public class ScenarioProcessor : IScenarioProcessor
 
         var actions = new ActionBlock<SimulationObject>(
             _ => ProcessSimulation(
-                message.SimulationObject.InitialPrice, 
+                message.SimulationObject.InitialPrice,
                 message.SimulationObject.TimeSteps,
                 message.SimulationObject.Mean,
                 message.SimulationObject.StandardDeviation),
@@ -62,16 +62,17 @@ public class ScenarioProcessor : IScenarioProcessor
 
     private void ProcessSimulation(double initialPrice, int timeSteps, double mean, double standardDeviation)
     {
+        var simulatedPrice = initialPrice;
         for (var timeStep = 0; timeStep < timeSteps; timeStep++)
         {
             var normalDistribution = new Normal(mean, standardDeviation);
             var randomNumber = normalDistribution.Sample();
             var exp = Math.Exp(randomNumber);
 
-            initialPrice *= exp;
+            simulatedPrice *= exp;
         }
 
-        var simulationReturn = initialPrice / initialPrice - 1;
+        var simulationReturn = simulatedPrice / initialPrice - 1;
         AssetsScenarioReturns.Add(simulationReturn);
     }
 

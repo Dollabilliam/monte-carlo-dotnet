@@ -4,10 +4,10 @@ namespace MonteCarloSimulator.Controllers.Dtos.Requests;
 
 public record PostSimulationRequestDto
 {
-    [JsonPropertyName("T")]
+    [JsonPropertyName("timeSteps")]
     public int TimeSteps { get; init; }
 
-    [JsonPropertyName("S")]
+    [JsonPropertyName("scenarios")]
     public int Scenarios { get; init; }
 
     [JsonPropertyName("assets")]

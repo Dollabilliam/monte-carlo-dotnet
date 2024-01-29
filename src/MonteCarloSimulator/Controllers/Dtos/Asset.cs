@@ -7,12 +7,12 @@ public record Asset
     [JsonPropertyName("name")]
     public string Name { get; init; }
 
-    [JsonPropertyName("p0")]
+    [JsonPropertyName("initialPrice")]
     public double InitialPrice { get; init; }
 
-    [JsonPropertyName("m")]
+    [JsonPropertyName("mean")]
     public string Mean { get; init; }
 
-    [JsonPropertyName("s")]
+    [JsonPropertyName("standardDeviation")]
     public string StandardDeviation { get; init; }
 }
