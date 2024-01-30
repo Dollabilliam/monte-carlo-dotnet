@@ -35,7 +35,7 @@ public class ScenarioProcessor : IScenarioProcessor
                 message.SimulationObject.StandardDeviation),
             new ExecutionDataflowBlockOptions
             {
-                MaxDegreeOfParallelism = 10,
+                MaxDegreeOfParallelism = 6,
                 CancellationToken = cancellationToken
             });
 
