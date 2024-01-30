@@ -9,7 +9,7 @@ A Swagger page should then open in your browser running on the port defined in `
 - `POST` `/simulation/start-simulation`
   - Request
     - timeSteps --> number time steps per scenario
-    - scenarios --> number of scenarios
+    - scenarios --> number of scenarios to run
     - initialPrice --> price at timestep 0
     - mean --> mean
     - standardDeviation --> standard deviation
