@@ -104,6 +104,6 @@ Also, the interfaces were created to allow for swapping out new components in th
 - Migrate toward scalable architecture as defined in diagram below
   - The REST service already communicates in this manner; this diagram is more about showing which components should be introduced to make it faster and scalable
 
-![pefect-world-diagram](system-design.png "pefect-world-diagram")
+![pefect-world-diagram](./src/assets/system-design.png "pefect-world-diagram")
 
 # Happy Monte-Carlo-ing!
