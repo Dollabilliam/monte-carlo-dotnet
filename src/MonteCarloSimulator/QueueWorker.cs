@@ -28,7 +28,7 @@ public class QueueWorker : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
-        {
+        { 
             logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
             await Task.Delay(options.Value.WorkerDelayInMs ?? 10000, cancellationToken);

@@ -1,6 +1,8 @@
 using System.Threading.Tasks.Dataflow;
 using MathNet.Numerics.Distributions;
+using Microsoft.Extensions.Options;
 using MonteCarloSimulator.Controllers.Dtos;
+using MonteCarloSimulator.Options;
 using MonteCarloSimulator.Queues.Messages;
 using MonteCarloSimulator.Result;
 using MonteCarloSimulator.Status;
@@ -15,27 +17,29 @@ public class ScenarioProcessor : IScenarioProcessor
     private readonly ILogger<ScenarioProcessor> logger;
     private readonly ISetStatusRepository statusRepository;
     private readonly ISetResultRepository resultRepository;
+    private readonly IOptions<ScenarioProcessorOptions> options;
 
-    public ScenarioProcessor(ILogger<ScenarioProcessor> logger, ISetStatusRepository statusRepository, ISetResultRepository resultRepository)
+    public ScenarioProcessor(ILogger<ScenarioProcessor> logger, ISetStatusRepository statusRepository, ISetResultRepository resultRepository, IOptions<ScenarioProcessorOptions> options)
     {
         this.logger = logger;
         this.statusRepository = statusRepository;
         this.resultRepository = resultRepository;
+        this.options = options;
     }
 
     public async Task ProcessScenarios(QueueMessage message, CancellationToken cancellationToken)
     {
         logger.LogInformation("Beginning processing scenarios for asset {AssetSimId}", message.SimulationObject.SimulationId);
 
-        var actions = new ActionBlock<SimulationObject>(
-            _ => ProcessSimulation(
+        var actionBlock = new ActionBlock<SimulationObject>(
+           async _ => await ProcessSimulation(
                 message.SimulationObject.InitialPrice,
                 message.SimulationObject.TimeSteps,
                 message.SimulationObject.Mean,
                 message.SimulationObject.StandardDeviation),
             new ExecutionDataflowBlockOptions
             {
-                MaxDegreeOfParallelism = 6,
+                MaxDegreeOfParallelism = options.Value.NumberOfHostProcessors ?? Environment.ProcessorCount,
                 CancellationToken = cancellationToken
             });
 
@@ -48,11 +52,11 @@ public class ScenarioProcessor : IScenarioProcessor
                 message.SimulationObject.SimulationId,
                 scenario);
 
-            actions.Post(message.SimulationObject);
+            await actionBlock.SendAsync(message.SimulationObject, cancellationToken);
         }
 
-        actions.Complete();
-        await actions.Completion;
+        actionBlock.Complete();
+        await actionBlock.Completion;
 
         logger.LogInformation("Setting scenario result for asset {AssetSimId}", message.SimulationObject.SimulationId);
 
@@ -60,7 +64,7 @@ public class ScenarioProcessor : IScenarioProcessor
         await resultRepository.SetResult(message.SimulationObject.SimulationId, quantiles);
     }
 
-    private void ProcessSimulation(double initialPrice, int timeSteps, double mean, double standardDeviation)
+    private Task ProcessSimulation(double initialPrice, int timeSteps, double mean, double standardDeviation)
     {
         var simulatedPrice = initialPrice;
         for (var timeStep = 0; timeStep < timeSteps; timeStep++)
@@ -74,6 +78,8 @@ public class ScenarioProcessor : IScenarioProcessor
 
         var simulationReturn = simulatedPrice / initialPrice - 1;
         AssetsScenarioReturns.Add(simulationReturn);
+
+        return Task.CompletedTask;
     }
 
     // ToDo: return formatted bell curve or boxplot of scenario results too -- would be way cooler!

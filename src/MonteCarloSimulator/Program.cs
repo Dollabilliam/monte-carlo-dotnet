@@ -19,6 +19,7 @@ builder.Services.AddSingleton<ISetStatusRepository, StatusRepository>();
 builder.Services.AddSingleton<IGetResultRepository, ResultRepository>();
 builder.Services.AddSingleton<ISetResultRepository, ResultRepository>();
 
+builder.Services.Configure<ScenarioProcessorOptions>(builder.Configuration.GetSection("ScenarioProcessor"));
 builder.Services.AddTransient<IScenarioProcessor, ScenarioProcessor>();
 
 builder.Services.Configure<QueueWorkerOptions>(builder.Configuration.GetSection("QueueWorker"));
