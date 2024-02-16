@@ -12,7 +12,7 @@ A Swagger page should then open in your browser running on the port defined in `
     - scenarios --> number of scenarios to run
     - initialPrice --> price at timestep 0
     - mean --> mean, starting value for deriving the next price
-    - standardDeviation --> standard deviation, provides a range for deriving the next price
+    - standardDeviation --> standard deviation, used for deriving the next price
   ```json
   {
     "timeSteps": 120,
