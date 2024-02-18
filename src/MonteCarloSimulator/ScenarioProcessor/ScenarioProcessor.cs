@@ -39,7 +39,7 @@ public class ScenarioProcessor : IScenarioProcessor
                 message.SimulationObject.StandardDeviation),
             new ExecutionDataflowBlockOptions
             {
-                MaxDegreeOfParallelism = options.Value.NumberOfHostProcessors ?? Environment.ProcessorCount,
+                MaxDegreeOfParallelism = options.Value.HostProcessors ?? Environment.ProcessorCount,
                 CancellationToken = cancellationToken
             });
 
